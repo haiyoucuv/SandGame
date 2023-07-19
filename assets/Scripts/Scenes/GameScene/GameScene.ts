@@ -1,6 +1,7 @@
 import Scene from "../../../Module/Scene";
 import { ColorArr, GameCfg, SandPool } from "../../Game/config/GameCfg";
 import SandBlock from "./SandBlock";
+import { wait } from "../../Utils/Utils";
 
 const {ccclass, property} = cc._decorator;
 
@@ -31,6 +32,9 @@ export default class GameScene extends Scene {
 
     sandArr: [cc.Node, number][][] = [];
 
+    pause: boolean = false;
+    pauseDelArr = [];
+
     onLoad() {
         super.onLoad();
 
@@ -48,7 +52,17 @@ export default class GameScene extends Scene {
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEC, this);
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchEC, this);
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+
+        this.addButtonListen("暂停", this.doPause, this);
+    }
+
+    doPause = () => {
+        this.pause = !this.pause;
+        // for (let i = this.pauseDelArr.length - 1; i >= 0; i--) {
+        //     if (!this.pauseDelArr[i][0].parent) this.debugSand(this.pauseDelArr[i][0].x, this.pauseDelArr[i][0].y);
+        //     this.pauseDelArr[i][0].removeFromParent();
+        // }
+        // this.pauseDelArr.length = 0;
     }
 
     moveDir: number = 0;
@@ -83,30 +97,17 @@ export default class GameScene extends Scene {
         this.unschedule(this.movieSandBlock);
     }
 
-    onKeyDown(event: cc.Event.EventKeyboard) {
-
-        switch (event.keyCode) {
-            case cc.macro.KEY.a:
-            case cc.macro.KEY.left:
-                this.sandBlockTS.col -= 4;
-                break;
-            case cc.macro.KEY.d:
-            case cc.macro.KEY.right:
-                this.sandBlockTS.col += 4;
-                break;
-            case cc.macro.KEY.space:
-                this.sandBlockTS.rotate();
-                break;
-        }
-    }
-
     protected start() {
         this.resetSandBlock();
     }
 
     resetSandBlock() {
         const color = ColorArr[Math.random() * ColorArr.length >> 0];
-        this.sandBlockTS.random(color);
+        // if (Math.random() < 0.6) {
+        //     this.sandBlockTS.random(ColorArr[0]);
+        // } else {
+            this.sandBlockTS.random(color);
+        // }
         this.sandBlockTS.row = 141;
         this.sandBlockTS.col = 30;
     }
@@ -164,7 +165,7 @@ export default class GameScene extends Scene {
     }
 
 
-    judgeSandBlock() {
+    async judgeSandBlock() {
 
         const {sandArr} = this;
 
@@ -263,9 +264,13 @@ export default class GameScene extends Scene {
                 for (let j = 0; j < len; j++) {
                     const [sand, color] = resArr[j];
                     const [col, row] = coordArr[j];
+                    // sand.color = cc.Color.WHITE;
+                    // await wait(0);
                     sand.removeFromParent();
                     sandArr[col][row] = null;
+                    // this.pause = true;
                 }
+                // this.pauseDelArr = this.pauseDelArr.concat(resArr);
             }
         }
     }
@@ -275,6 +280,9 @@ export default class GameScene extends Scene {
         const {sandArr} = this;
 
         const sand = sandArr[col][row];
+
+        if(!sand) debugger;
+
         const color = sand[1];
 
         const tempArr = [];
@@ -295,11 +303,14 @@ export default class GameScene extends Scene {
         for (let i = 0, total = 1; i < total; i++) {
             const [col, row] = coordArr[i];
 
+            if (col === MaxCol - 1) isCutThrough = true;
+
             const leftCol = col - 1;
             const rightCol = col + 1;
             const downRow = row - 1;
             const upRow = row + 1;
 
+            // left
             if (leftCol >= 0 && rightCol < MaxCol) {
                 const left = sandArr[leftCol]?.[row];
 
@@ -310,8 +321,29 @@ export default class GameScene extends Scene {
                 }
 
                 tempArr[leftCol][row] = true;
+
+                if (downRow >= 0) {
+                    const leftDown = sandArr[leftCol]?.[downRow];
+                    if (!tempArr[leftCol][downRow] && leftDown?.[1] === color) {
+                        resArr.push(leftDown);
+                        coordArr.push([leftCol, downRow]);
+                        total++;
+                    }
+                    tempArr[leftCol][downRow] = true;
+                }
+
+                if (upRow < MaxRow) {
+                    const leftUp = sandArr[leftCol]?.[upRow];
+                    if (!tempArr[leftCol][upRow] && leftUp?.[1] === color) {
+                        resArr.push(leftUp);
+                        coordArr.push([leftCol, upRow]);
+                        total++;
+                    }
+                    tempArr[leftCol][upRow] = true;
+                }
             }
 
+            // right
             if (rightCol < MaxCol) {
                 const right = sandArr[rightCol]?.[row];
 
@@ -319,10 +351,29 @@ export default class GameScene extends Scene {
                     resArr.push(right);
                     coordArr.push([rightCol, row]);
                     total++;
-                    if (rightCol === MaxCol - 1) isCutThrough = true;
                 }
 
                 tempArr[rightCol][row] = true;
+
+                if (downRow >= 0) {
+                    const rightDown = sandArr[rightCol]?.[downRow];
+                    if (!tempArr[rightCol][downRow] && rightDown?.[1] === color) {
+                        resArr.push(rightDown);
+                        coordArr.push([rightCol, downRow]);
+                        total++;
+                    }
+                    tempArr[rightCol][downRow] = true;
+                }
+
+                if (upRow < MaxRow) {
+                    const rightUp = sandArr[rightCol]?.[upRow];
+                    if (!tempArr[rightCol][upRow] && rightUp?.[1] === color) {
+                        resArr.push(rightUp);
+                        coordArr.push([rightCol, upRow]);
+                        total++;
+                    }
+                    tempArr[rightCol][upRow] = true;
+                }
             }
 
             if (downRow >= 0 && upRow < MaxRow) {
@@ -358,21 +409,79 @@ export default class GameScene extends Scene {
         }
     }
 
+    debugSand = (x, y, color = cc.Color.BLACK) => {
+        this.pause = true;
+        const debugSand = cc.instantiate(this.sandPrefab);
+        this.view["BlockRoot"].addChild(debugSand);
+        debugSand.setPosition(x, y);
+    }
+
+    debug(flag) {
+        const {sandArr} = this;
+
+        let childLen = 0;
+        for (let col = 0; col < MaxCol; col++) {
+            for (let row = 0; row < MaxRow; row++) {
+                if (sandArr[col][row]) {
+                    childLen++;
+                    const [sand, color] = sandArr[col][row];
+                    if (sand && !sand.parent) {
+                        console.warn(flag);
+                        this.debugSand(col * SandWidth, row * SandWidth, cc.Color.BLACK);
+                    }
+                }
+            }
+        }
+
+        if (this.sandRoot.children.length !== childLen) {
+            console.warn(flag);
+            this.pause = true;
+            console.log("childLen", childLen, this.sandRoot.children.length);
+
+            const tempArr = [...this.sandRoot.children];
+            for (let col = 0; col < MaxCol; col++) {
+                for (let row = 0; row < MaxRow; row++) {
+                    if (sandArr[col][row]) {
+                        const [sand, color] = sandArr[col][row];
+                        tempArr.splice(tempArr.indexOf(sand), 1);
+                    }
+                }
+            }
+
+            tempArr.forEach(sand => {
+                console.warn(flag);
+                this.debugSand(sand.x, sand.y, cc.Color.CYAN);
+            });
+
+
+        }
+    }
+
     simulateTotal = 0;
 
     update(dt) {
+
+        if (this.pause) return;
+
         const radioDT = dt * this.gameSpeed;
 
         this.blockDrop(radioDT);
 
+        // this.debug("方块掉落");
+
         this.judgeSandBlock();
+
+        this.debug("方块判断");
 
         this.simulateTotal += radioDT;
 
         if (this.simulateTotal >= SimulateDT) {
             this.simulateTotal -= SimulateDT;
-            this.doSimulate();
             this.doJudgeEliminate();
+            this.debug("方块消除");
+            this.doSimulate();
+            this.debug("方块模拟");
+
         }
 
     }

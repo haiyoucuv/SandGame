@@ -180,9 +180,15 @@ export function setGray(img: cc.Node) {
 
 
 export function colorToHexNum(color: cc.Color) {
-  return (color.r << 16) + (color.g << 8) + color.b;
+    return (color.r << 16) + (color.g << 8) + color.b;
 }
 
 export function deepClone(obj: any) {
     return JSON.parse(JSON.stringify(obj));
+}
+
+export function wait(time: number) {
+    return new Promise<void>((resolve) => {
+        setTimeout(resolve, time);
+    });
 }
