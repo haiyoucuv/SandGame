@@ -1,4 +1,5 @@
 import { BlockTpl, SandPool, GameCfg } from "../../Game/config/GameCfg";
+import { colorToHexNum, deepClone } from "../../Utils/Utils";
 
 const {ccclass, property} = cc._decorator;
 
@@ -16,6 +17,7 @@ export default class SandBlock extends cc.Component {
 
     tpl: number[][] = null;
     color: cc.Color = null;
+    colorHex: number = null;
 
     private _row: number = 0;
     get row(): number {
@@ -157,9 +159,8 @@ export default class SandBlock extends cc.Component {
         this.sandArr.length = 0;
     }
 
-    random(color) {
-        this.tpl = JSON.parse(JSON.stringify(BlockTpl[(Math.random() * BlockTpl.length) >> 0]));
-        // this.tpl = JSON.parse(JSON.stringify(BlockTpl[4]));
+    random(color: cc.Color) {
+        this.tpl = deepClone(BlockTpl[(Math.random() * BlockTpl.length) >> 0]);
 
         // 随机旋转0-3次
         const rotateTimes = (Math.random() * 4) >> 0;
@@ -169,6 +170,7 @@ export default class SandBlock extends cc.Component {
         this.calcRal();
 
         this.color = color;
+        this.colorHex = color["_val"];
 
         this.clear();
 

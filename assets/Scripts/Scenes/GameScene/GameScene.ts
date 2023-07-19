@@ -29,7 +29,7 @@ export default class GameScene extends Scene {
     @property(cc.Node)
     sandRoot: cc.Node = null;
 
-    sandArr: cc.Node[][] = [];
+    sandArr: [cc.Node, number][][] = [];
 
     onLoad() {
         super.onLoad();
@@ -42,9 +42,7 @@ export default class GameScene extends Scene {
             SandPool.put(sand);
         }
 
-        for (let i = 0; i < MaxCol; i++) {
-            sandArr.push([]);
-        }
+        for (let i = 0; i < MaxCol; i++) this.sandArr.push([]);
 
         this.node.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
@@ -142,7 +140,7 @@ export default class GameScene extends Scene {
                     if (!down) {
                         sandArr[col][downRow] = sand;
                         sandArr[col][row] = null;
-                        sand.setPosition(col * SandWidth, downRow * SandWidth);
+                        sand[0].setPosition(col * SandWidth, downRow * SandWidth);
                     } else {
                         const left = sandArr[leftCol]?.[row];
                         const right = sandArr[rightCol]?.[row];
@@ -152,11 +150,11 @@ export default class GameScene extends Scene {
                         if (!left && !leftDown && col > 0) {
                             sandArr[leftCol][downRow] = sand;
                             sandArr[col][row] = null;
-                            sand.setPosition(leftCol * SandWidth, downRow * SandWidth);
+                            sand[0].setPosition(leftCol * SandWidth, downRow * SandWidth);
                         } else if (!right && !rightDown && col < MaxCol - 1) {
                             sandArr[rightCol][downRow] = sand;
                             sandArr[col][row] = null;
-                            sand.setPosition(rightCol * SandWidth, downRow * SandWidth);
+                            sand[0].setPosition(rightCol * SandWidth, downRow * SandWidth);
                         }
                     }
 
@@ -210,6 +208,7 @@ export default class GameScene extends Scene {
             ralMaxCol,
             ralMinRow,
             ralMaxRow,
+            colorHex,
         } = this.sandBlockTS;
 
         for (let col = ralMinCol; col <= ralMaxCol; col++) {
@@ -218,7 +217,7 @@ export default class GameScene extends Scene {
                 if (sand) {
                     sandBlock.removeChild(sand);
                     sandRoot.addChild(sand);
-                    sandArr[col + blockCol][row + blockRow] = sand;
+                    sandArr[col + blockCol][row + blockRow] = [sand, colorHex];
                     sand.setPosition((col + blockCol) * SandWidth, (row + blockRow) * SandWidth);
                     blockArr[col][row] = null;
                 }
@@ -231,6 +230,132 @@ export default class GameScene extends Scene {
 
     blockDrop(radioDT) {
         this.sandBlockTS.row -= 1;
+    }
+
+    doJudgeEliminate() {
+        const {sandArr} = this;
+
+        // 在第一列按颜色分区
+        const indexArr = [];
+        let judgeColor = null;
+        for (let row = 0; row < MaxRow; row++) {
+            const sand = sandArr[0][row];
+            if (sand) {
+                const [_, hexColor] = sand;
+                if (hexColor !== judgeColor) {
+                    indexArr.push(row);
+                    judgeColor = hexColor;
+                }
+            } else {
+                judgeColor = null;
+            }
+        }
+
+        if (indexArr.length === 0) return;
+
+        // 分区的第一个开始，优先深度优先遍历，找到相同颜色的区域，如果区域到最右边了，则表示连通了，消除
+
+        const len = indexArr.length;
+        for (let i = 0; i < len; i++) {
+            const {coordArr, resArr, isCutThrough} = this.searchSame(0, indexArr[i]);
+            if (isCutThrough) {
+                const len = coordArr.length;
+                for (let j = 0; j < len; j++) {
+                    const [sand, color] = resArr[j];
+                    const [col, row] = coordArr[j];
+                    sand.removeFromParent();
+                    sandArr[col][row] = null;
+                }
+            }
+        }
+    }
+
+    searchSame(col, row) {
+
+        const {sandArr} = this;
+
+        const sand = sandArr[col][row];
+        const color = sand[1];
+
+        const tempArr = [];
+        for (let i = 0; i < MaxCol; i++) tempArr.push([]);
+
+        tempArr[col][row] = true;
+
+        // 结果数组
+        const resArr = [sand];
+
+        // 坐标数组
+        const coordArr = [[col, row]];
+
+        // 是否连通
+        let isCutThrough = false;
+
+
+        for (let i = 0, total = 1; i < total; i++) {
+            const [col, row] = coordArr[i];
+
+            const leftCol = col - 1;
+            const rightCol = col + 1;
+            const downRow = row - 1;
+            const upRow = row + 1;
+
+            if (leftCol >= 0 && rightCol < MaxCol) {
+                const left = sandArr[leftCol]?.[row];
+
+                if (!tempArr[leftCol][row] && left?.[1] === color) {
+                    resArr.push(left);
+                    coordArr.push([leftCol, row]);
+                    total++;
+                }
+
+                tempArr[leftCol][row] = true;
+            }
+
+            if (rightCol < MaxCol) {
+                const right = sandArr[rightCol]?.[row];
+
+                if (!tempArr[rightCol][row] && right?.[1] === color) {
+                    resArr.push(right);
+                    coordArr.push([rightCol, row]);
+                    total++;
+                    if (rightCol === MaxCol - 1) isCutThrough = true;
+                }
+
+                tempArr[rightCol][row] = true;
+            }
+
+            if (downRow >= 0 && upRow < MaxRow) {
+                const down = sandArr[col]?.[downRow];
+
+                if (!tempArr[col][downRow] && down?.[1] === color) {
+                    resArr.push(down);
+                    coordArr.push([col, downRow]);
+                    total++;
+                }
+
+                tempArr[col][downRow] = true;
+            }
+
+            if (upRow < MaxRow) {
+                const up = sandArr[col]?.[upRow];
+
+                if (!tempArr[col][upRow] && up?.[1] === color) {
+                    resArr.push(up);
+                    coordArr.push([col, upRow]);
+                    total++;
+                }
+
+                tempArr[col][upRow] = true;
+            }
+
+        }
+
+        return {
+            resArr,
+            isCutThrough,
+            coordArr,
+        }
     }
 
     simulateTotal = 0;
@@ -247,6 +372,7 @@ export default class GameScene extends Scene {
         if (this.simulateTotal >= SimulateDT) {
             this.simulateTotal -= SimulateDT;
             this.doSimulate();
+            this.doJudgeEliminate();
         }
 
     }

@@ -177,3 +177,12 @@ export function sleep(t: number) {
 export function setGray(img: cc.Node) {
   img.getComponent(cc.Sprite).setMaterial(0, cc.Material.createWithBuiltin(cc.Material.BUILTIN_NAME.GRAY_SPRITE.toString(), 0))
 }
+
+
+export function colorToHexNum(color: cc.Color) {
+  return (color.r << 16) + (color.g << 8) + color.b;
+}
+
+export function deepClone(obj: any) {
+    return JSON.parse(JSON.stringify(obj));
+}
