@@ -1,0 +1,61 @@
+
+<div class="scroll" style="height: 500px;">
+    <!-- 设置title显示，如果为空这不进行操作 --> 
+    <div class="top">
+        <ui-hint class="green urlTitle" >网页标题:</ui-hint>
+        <ui-input class="urlInput" placeholder="Title选填" @change="titleEvent" :value="TITLE" ></ui-input>
+    </div>
+    <!-- 样式选择 -->
+    <div >
+        <div style="height: 40px;"><ui-hint class="green urlTitle" >样式选择:</ui-hint></div>
+        <div >
+            <ui-checkbox style="margin: 5px;" @change="styleEvent" :checked="checkbox">渐显示样式一</ui-checkbox>
+            <!-- <ui-checkbox style="margin: 5px;">样式一</ui-checkbox>
+            <ui-checkbox style="margin: 5px;">样式一</ui-checkbox>
+            <ui-checkbox style="margin: 5px;">样式一</ui-checkbox>
+            <ui-checkbox style="margin: 5px;">样式一</ui-checkbox>
+            <ui-checkbox style="margin: 5px;">样式一</ui-checkbox> -->
+        </div>
+        <a style="font-size: 12px;" href="https:www.zhita.wang">具体样式请参考:https:www.zhita.wang</a>
+    </div>
+    <div class="top">
+        <ui-hint class="blue urlTitle" >模板类型: </ui-hint>
+        <ui-select class="pathSelect huge" style="border-radius: 5px;top: 50%;position: relative;transform: translateY(-50%);" @change="selectModelType" value="0">
+            <option class="option" value="0">web-mobile</option>
+            <option class="option" value="1">web-desktop</option>
+        </ui-select>
+    </div>
+    <!-- 是否显示加载中文字暂时为默认 -->
+    <!-- 颜色设置 -->
+    <div>
+        <div style="height: 40px;"><ui-hint class="blue urlTitle" >颜色设置:</ui-hint></div>
+        <div style="padding-left: 5px;">
+            <div>进度条加载时渐变颜色设置</div>
+            <div >
+                <div style="height: 40px;">
+                    <ui-hint class="right urlTitle">开始颜色:</ui-hint>
+                    <ui-color :value="colorFront" @confirm="setColorFrontEvent" @cancel="setColorFrontEvent" style="top: 50%;position: relative;transform: translateY(-50%);"></ui-color>
+                </div>
+            </div>
+            <div >
+                <div style="height: 40px;">
+                    <ui-hint class="right urlTitle" >结束颜色:</ui-hint>
+                    <ui-color :value="colorRear" @confirm="setColorRearEvent" @cancel="setColorRearEvent" style="top: 50%;position: relative;transform: translateY(-50%);"></ui-color>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 生成进度 -->
+    <div class="top-remark">
+        <ui-hint class="red urlTitle" >生成进度:</ui-hint>
+        <ui-progress class="progress" size="large" :value="progress"></ui-progress>
+    </div>
+    <div class="top-remark" style="height: 180px;">
+        <ui-hint class="red urlTitle" >生成状态:</ui-hint>
+        <textarea class="typeTextarea" rows="10" cols="30" :value="logInfo"  placeholder="未进行" readonly disabled="disabled"></textarea>
+        <!-- <ui-text-area class="remark big" style="height:170px;" placeholder="未进行" :value="arr" readonly focused unnavigable ></ui-text-area> -->
+    </div>
+    <div class="top-remark">
+        <ui-button class="green generate" @confirm="isBuildPath" >生成</ui-button>
+    </div>
+</div>

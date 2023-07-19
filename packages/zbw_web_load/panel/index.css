@@ -1,0 +1,48 @@
+.scroll{
+    padding-left: 20px;
+}
+.top{
+    height: 50px;
+}
+.urlTitle{
+    float: left;
+    margin-right: 10px;
+    top: 50%;
+    position: relative;
+    transform: translateY(-50%);
+}
+.urlInput{
+    width: 270px;
+    color: #fff;
+    font-size: 25px;
+    top: 50%;
+    position: relative;
+    transform: translateY(-50%);
+}
+.top-remark{
+    height: 80px;
+}
+.typeTextarea{
+    background:transparent; 
+    background-color:  #262626;
+    border-style:none;  
+    resize: none;
+    border-radius: 5px;
+    width: 70%;
+    color: #fd942b;
+}
+.generate{
+    float: right;
+    width: 100px;
+    right: 30px;
+    top: 50%;
+    position: relative;
+    transform: translateY(-50%);
+}
+.progress{
+    width: 70%;
+    top: 50%;
+    position: relative;
+    border-radius: 5px;
+    transform: translateY(-50%);
+}

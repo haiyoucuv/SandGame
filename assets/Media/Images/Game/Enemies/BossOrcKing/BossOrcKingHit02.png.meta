@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "bc21e5d6-efea-405b-a0c7-00bd069e09c2",
+  "importer": "image",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 92,
+  "height": 64,
+  "platformSettings": {},
+  "subMetas": {
+    "BossOrcKingHit02": {
+      "ver": "1.0.6",
+      "uuid": "bc21e5d6-efea-405b-a0c7-00bd069e09c2@6c48a",
+      "importer": "texture",
+      "rawTextureUuid": "bc21e5d6-efea-405b-a0c7-00bd069e09c2",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 5.5,
+      "offsetY": -7.5,
+      "trimX": 13,
+      "trimY": 16,
+      "width": 77,
+      "height": 47,
+      "rawWidth": 92,
+      "rawHeight": 64,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

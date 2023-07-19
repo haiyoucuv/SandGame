@@ -1,0 +1,21 @@
+{
+  "name": "plane_fight_game",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@gitlab2.dui88.com:haiyoucuv/cocos_plane_war.git",
+  "author": "邱旭 <qiuxu@duiba.com.cn>",
+  "license": "MIT",
+  "scripts": {
+    "psd": "node ./psdH"
+  },
+  "dependencies": {
+    "ali-oss": "^6.17.1",
+    "chokidar": "^3.5.3",
+    "co": "^4.6.0",
+    "os": "^0.1.2",
+    "progress": "^2.0.3",
+    "psd": "^3.2.0",
+    "spark-assets": "^2.3.10"
+  },
+  "description": ""
+}

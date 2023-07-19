@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "9834f602-6038-4d49-82bb-0c4ead561149",
+  "importer": "image",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 53,
+  "height": 81,
+  "platformSettings": {},
+  "subMetas": {
+    "WpnTrace02": {
+      "ver": "1.0.6",
+      "uuid": "9834f602-6038-4d49-82bb-0c4ead561149@6c48a",
+      "importer": "texture",
+      "rawTextureUuid": "9834f602-6038-4d49-82bb-0c4ead561149",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 53,
+      "height": 81,
+      "rawWidth": 53,
+      "rawHeight": 81,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "25007b17-f0be-4ab6-a281-9631f1a67b70",
+  "importer": "image",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 320,
+  "height": 149,
+  "platformSettings": {},
+  "subMetas": {
+    "Horde": {
+      "ver": "1.0.6",
+      "uuid": "25007b17-f0be-4ab6-a281-9631f1a67b70@6c48a",
+      "importer": "texture",
+      "rawTextureUuid": "25007b17-f0be-4ab6-a281-9631f1a67b70",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 320,
+      "height": 149,
+      "rawWidth": 320,
+      "rawHeight": 149,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

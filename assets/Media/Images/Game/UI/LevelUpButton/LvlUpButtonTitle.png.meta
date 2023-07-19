@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "ae4d7996-bef9-4db8-82d4-978dcbd6bf30",
+  "importer": "image",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 34,
+  "height": 28,
+  "platformSettings": {},
+  "subMetas": {
+    "LvlUpButtonTitle": {
+      "ver": "1.0.6",
+      "uuid": "ae4d7996-bef9-4db8-82d4-978dcbd6bf30@6c48a",
+      "importer": "texture",
+      "rawTextureUuid": "ae4d7996-bef9-4db8-82d4-978dcbd6bf30",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 34,
+      "height": 28,
+      "rawWidth": 34,
+      "rawHeight": 28,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

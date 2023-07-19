@@ -1,0 +1,12 @@
+{
+  "name": "auto-refresh",
+  "version": "0.0.1",
+  "description": "兑吧 Cocos Creator 预览自动刷新脚本",
+  "author": "haiyoucuv",
+  "main": "main.js",
+  "main-menu": {
+    "i18n:MAIN_MENU.package.title/aa/aa": {
+      "message": "auto-refresh:test"
+    }
+  }
+}

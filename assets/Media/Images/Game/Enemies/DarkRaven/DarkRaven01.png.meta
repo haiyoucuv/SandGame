@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "59f8a5f5-239a-4f02-b511-56cc6e50a947",
+  "importer": "image",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 32,
+  "height": 42,
+  "platformSettings": {},
+  "subMetas": {
+    "DarkRaven01": {
+      "ver": "1.0.6",
+      "uuid": "59f8a5f5-239a-4f02-b511-56cc6e50a947@6c48a",
+      "importer": "texture",
+      "rawTextureUuid": "59f8a5f5-239a-4f02-b511-56cc6e50a947",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 32,
+      "height": 42,
+      "rawWidth": 32,
+      "rawHeight": 42,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "471a1da9-6633-4ffd-9b5c-efac9386a700",
+  "importer": "image",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 80,
+  "height": 64,
+  "platformSettings": {},
+  "subMetas": {
+    "BossStoneGolemHit00": {
+      "ver": "1.0.6",
+      "uuid": "471a1da9-6633-4ffd-9b5c-efac9386a700@6c48a",
+      "importer": "texture",
+      "rawTextureUuid": "471a1da9-6633-4ffd-9b5c-efac9386a700",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -7,
+      "offsetY": -2,
+      "trimX": 5,
+      "trimY": 5,
+      "width": 56,
+      "height": 58,
+      "rawWidth": 80,
+      "rawHeight": 64,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

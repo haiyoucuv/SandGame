@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "b9395a85-d6b4-4e68-afd4-f5e8202b5bfa",
+  "importer": "image",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 36,
+  "height": 42,
+  "platformSettings": {},
+  "subMetas": {
+    "DarkRavenShoot00": {
+      "ver": "1.0.6",
+      "uuid": "b9395a85-d6b4-4e68-afd4-f5e8202b5bfa@6c48a",
+      "importer": "texture",
+      "rawTextureUuid": "b9395a85-d6b4-4e68-afd4-f5e8202b5bfa",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0.5,
+      "offsetY": 0,
+      "trimX": 2,
+      "trimY": 0,
+      "width": 33,
+      "height": 42,
+      "rawWidth": 36,
+      "rawHeight": 42,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

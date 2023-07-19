@@ -1,0 +1,33 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>预览</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+<canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
+<div id="splash" style="display: none;opacity: 0;">
+    <div class="progress-bar stripes">
+        <span style="width: 0%"></span>
+    </div>
+</div>
+
+<!--<script type="text/javascript" src="//yun.duiba.com.cn/js-libs/vConsole/3.3.4/vconsole.min.js"></script>-->
+<!--<script> new VConsole();</script>-->
+
+<style>
+    #__vconsole .vc-switch {
+        bottom: 100px !important;
+    }
+</style>
+<script>
+  window.__ENV__ = <%= enableDebugger %> ? "development" : "prod";
+</script>
+<script src="settings.js" charset="utf-8"></script>
+<script src="boot.js" charset="utf-8"></script>
+<script src="/socket.io/socket.io.js" charset="utf-8"></script>
+<script src="app/engine/bin/<%= cocos2d %>" charset="utf-8"></script>
+<script src="preview-scripts/__quick_compile__.js" charset="utf-8"></script>
+
+</body>
+</html>

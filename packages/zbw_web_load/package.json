@@ -1,0 +1,23 @@
+{
+  "name": "zbw_web_load",
+  "version": "0.0.2",
+  "description": "web项目",
+  "author": "张佰万",
+  "main": "main.js",
+  "main-menu": {
+    "i18n:MAIN_MENU.package.title/webLoad": {
+      "message": "zbw_web_load:open"
+    }
+  },
+  "panel": {
+    "main": "panel/index.js",
+    "type": "dockable",
+    "title": "自定义webLoad样式",
+    "width": 0,
+    "height": 520,
+    "min-width": 420,
+    "min-height": 520,
+    "max-width": 430,
+    "max-height": 540
+  }
+}

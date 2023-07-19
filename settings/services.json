@@ -1,0 +1,18 @@
+{
+	"game": {
+		"name": "还有醋v",
+		"appid": "629918350",
+		"cid": "0"
+	},
+	"configs": [
+		{
+			"appid": "629918350",
+			"services": [
+				{
+					"service_id": "278",
+					"enable": false
+				}
+			]
+		}
+	]
+}

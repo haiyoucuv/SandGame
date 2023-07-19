@@ -1,0 +1,12 @@
+{
+  "name": "duiba-publish",
+  "version": "0.0.1",
+  "description": "兑吧 Cocos Creator Web 发布插件",
+  "author": "haiyoucuv",
+  "main": "main.js",
+  "main-menu": {
+    "i18n:MAIN_MENU.package.title/兑吧发布插件/测试": {
+      "message": "duiba-publish:test"
+    }
+  }
+}
