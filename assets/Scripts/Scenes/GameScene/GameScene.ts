@@ -488,13 +488,13 @@ export default class GameScene extends Scene {
         if (this.simulateTotal >= SimulateDT) {
             this.simulateTotal -= SimulateDT;
 
-            // 判断并消除
-            this.doJudgeEliminate();
-            // this.debug("方块消除");
-
             // 模拟
             this.doSimulate();
             // this.debug("方块模拟");
+
+            // 判断并消除
+            this.doJudgeEliminate();
+            // this.debug("方块消除");
 
         }
 
