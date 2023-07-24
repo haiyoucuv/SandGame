@@ -1,7 +1,7 @@
 import Scene from "../../../Module/Scene";
-import { ColorArr, GameCfg, SandPool } from "../../Game/config/GameCfg";
+import {ColorArr, GameCfg, SandPool} from "../../Game/config/GameCfg";
 import SandBlock from "./SandBlock";
-import { wait } from "../../Utils/Utils";
+import {wait} from "../../Utils/Utils";
 
 const {ccclass, property} = cc._decorator;
 
@@ -234,10 +234,6 @@ export default class GameScene extends Scene {
     }
 
 
-    blockDrop(radioDT) {
-        this.sandBlockTS.row -= 1;
-    }
-
     /**
      * 判断并消除左右连通的方块
      */
@@ -460,6 +456,37 @@ export default class GameScene extends Scene {
     }
 
 
+    /**
+     * 判断是否死亡
+     */
+    judgeDie(): boolean {
+        const {sandArr} = this;
+
+        for (let col = 0; col < MaxCol; col++) {
+            const sand = sandArr[col][MaxRow - 1];
+            if (sand) return true;
+        }
+
+        return false;
+    }
+
+
+
+
+    dropDT = 0.017;
+    dropTotal = 0;
+    blockDrop(radioDT: number) {
+
+        this.dropTotal += radioDT;
+
+        if (this.dropTotal >= this.dropDT) {
+            this.dropTotal -= this.dropDT;
+            this.sandBlockTS.row -= 1;
+        }
+
+    }
+
+
     gameSpeed = 1;
     simulateTotal = 0;
 
@@ -495,6 +522,13 @@ export default class GameScene extends Scene {
             // 判断并消除
             this.doJudgeEliminate();
             // this.debug("方块消除");
+
+
+            const isDie = this.judgeDie();
+            if(isDie){
+                this.pause = true;
+                console.log("你死了");
+            }
 
         }
 
