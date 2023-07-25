@@ -3,16 +3,18 @@
   "miniprogramRoot": "",
   "setting": {
     "urlCheck": true,
-    "es6": true,
+    "es6": false,
     "postcss": true,
-    "minified": false,
+    "minified": true,
     "newFeature": false,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
     },
-    "condition": false
+    "condition": false,
+    "localPlugins": false,
+    "uglifyFileName": false
   },
   "compileType": "game",
   "libVersion": "2.33.0",
