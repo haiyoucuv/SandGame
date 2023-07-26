@@ -1,11 +1,16 @@
 import Scene from "../../../Module/Scene";
-import {ColorArr, GameCfg, SandPool} from "../../Game/config/GameCfg";
+import { ColorArr, GameCfg, SandPool, TRAVERSAL_BY } from "../../Game/config/GameCfg";
 import SandBlock from "./SandBlock";
-import {wait} from "../../Utils/Utils";
+import { wait } from "../../Utils/Utils";
 
 const {ccclass, property} = cc._decorator;
 
-const {MaxCol, MaxRow, SandWidth, BlockDropSpeed, SimulateDT} = GameCfg;
+const {
+    MaxCol, MaxRow,
+    SandWidth,
+    SimulateDT, DropDT,
+} = GameCfg;
+
 @ccclass
 export default class GameScene extends Scene {
 
@@ -67,12 +72,17 @@ export default class GameScene extends Scene {
 
     moveDir: number = 0;
 
-    movieSandBlock() {
+    moveSandBlock() {
         this.sandBlockTS.col += this.moveDir;
+        const judge = this.judgeSandBlock(this.moveDir === 1 ? TRAVERSAL_BY.CR_R : TRAVERSAL_BY.C_R);
+        if (judge) {
+            this.sandBlockTS.col -= this.moveDir;
+        }
     }
 
     onTouchStart(touch: cc.Event.EventTouch) {
-        this.schedule(this.movieSandBlock, 0.016);
+        this.schedule(this.moveSandBlock, 0.016);
+        this.moveDir = 0;
     }
 
     onTouchMove(touch: cc.Event.EventTouch) {
@@ -94,7 +104,7 @@ export default class GameScene extends Scene {
             this.sandBlockTS.rotate();
         }
 
-        this.unschedule(this.movieSandBlock);
+        this.unschedule(this.moveSandBlock);
     }
 
     protected start() {
@@ -165,11 +175,10 @@ export default class GameScene extends Scene {
         }
     }
 
-
     /**
      * 判断是否可以放到主沙堆中
      */
-    judgeSandBlock() {
+    judgeSandBlock(by: TRAVERSAL_BY) {
 
         const {sandArr} = this;
 
@@ -183,18 +192,86 @@ export default class GameScene extends Scene {
             ralMaxRow,
         } = this.sandBlockTS;
 
-        if (blockRow <= -ralMinRow) {
-            this.copyBlockToArr();
-            this.resetSandBlock();
-            return;
-        }
+        if (blockRow <= -ralMinRow) return true;
 
-        for (let col = ralMinCol; col <= ralMaxCol; col++) {
+        if (by === TRAVERSAL_BY.R_C) {
             for (let row = ralMinRow; row <= ralMaxRow; row++) {
-                const sand = blockArr[col]?.[row];
-                const hasSand = sandArr[col + blockCol]?.[row - 1 + blockRow];
-                if (sand && hasSand) {
-                    return true;
+                for (let col = ralMinCol; col <= ralMaxCol; col++) {
+                    const sand = blockArr[col]?.[row];
+                    const hasSand = sandArr[col + blockCol]?.[row - 1 + blockRow];
+                    if (sand && hasSand) {
+                        return true;
+                    }
+                }
+            }
+        } else if (by === TRAVERSAL_BY.RR_C) {
+            for (let row = ralMaxRow; row >= ralMinRow; row--) {
+                for (let col = ralMinCol; col <= ralMaxCol; col++) {
+                    const sand = blockArr[col]?.[row];
+                    const hasSand = sandArr[col + blockCol]?.[row - 1 + blockRow];
+                    if (sand && hasSand) {
+                        return true;
+                    }
+                }
+            }
+        } else if (by === TRAVERSAL_BY.R_CR) {
+            for (let row = ralMinRow; row <= ralMaxRow; row++) {
+                for (let col = ralMaxCol; col >= ralMinCol; col--) {
+                    const sand = blockArr[col]?.[row];
+                    const hasSand = sandArr[col + blockCol]?.[row - 1 + blockRow];
+                    if (sand && hasSand) {
+                        return true;
+                    }
+                }
+            }
+        } else if (by === TRAVERSAL_BY.RR_CR) {
+            for (let row = ralMaxRow; row >= ralMinRow; row--) {
+                for (let col = ralMaxCol; col >= ralMinCol; col--) {
+                    const sand = blockArr[col]?.[row];
+                    const hasSand = sandArr[col + blockCol]?.[row - 1 + blockRow];
+                    if (sand && hasSand) {
+                        return true;
+                    }
+                }
+            }
+        } else if (by === TRAVERSAL_BY.C_R) {
+            for (let col = ralMinCol; col <= ralMaxCol; col++) {
+                for (let row = ralMinRow; row <= ralMaxRow; row++) {
+                    const sand = blockArr[col]?.[row];
+                    const hasSand = sandArr[col + blockCol]?.[row - 1 + blockRow];
+                    if (sand && hasSand) {
+                        return true;
+                    }
+                }
+            }
+        } else if (by === TRAVERSAL_BY.CR_R) {
+            for (let col = ralMaxCol; col >= ralMinCol; col--) {
+                for (let row = ralMinRow; row <= ralMaxRow; row++) {
+                    const sand = blockArr[col]?.[row];
+                    const hasSand = sandArr[col + blockCol]?.[row - 1 + blockRow];
+                    if (sand && hasSand) {
+                        return true;
+                    }
+                }
+            }
+        } else if (by === TRAVERSAL_BY.C_RR) {
+            for (let col = ralMinCol; col <= ralMaxCol; col++) {
+                for (let row = ralMaxRow; row >= ralMinRow; row--) {
+                    const sand = blockArr[col]?.[row];
+                    const hasSand = sandArr[col + blockCol]?.[row - 1 + blockRow];
+                    if (sand && hasSand) {
+                        return true;
+                    }
+                }
+            }
+        } else if (by === TRAVERSAL_BY.CR_RR) {
+            for (let col = ralMaxCol; col >= ralMinCol; col--) {
+                for (let row = ralMaxRow; row >= ralMinRow; row--) {
+                    const sand = blockArr[col]?.[row];
+                    const hasSand = sandArr[col + blockCol]?.[row - 1 + blockRow];
+                    if (sand && hasSand) {
+                        return true;
+                    }
                 }
             }
         }
@@ -219,8 +296,8 @@ export default class GameScene extends Scene {
             colorHex,
         } = this.sandBlockTS;
 
-        for (let col = ralMinCol; col <= ralMaxCol; col++) {
-            for (let row = ralMinRow; row <= ralMaxRow; row++) {
+        for (let row = ralMinRow; row <= ralMaxRow; row++) {
+            for (let col = ralMinCol; col <= ralMaxCol; col++) {
                 const sand = blockArr[col]?.[row];
                 if (sand) {
                     sandBlock.removeChild(sand);
@@ -471,23 +548,24 @@ export default class GameScene extends Scene {
     }
 
 
+    /**
+     * 掉落和判断要包装在一起，因为掉落一行就要判断是否复制方块
+     */
+    blockDropAndJudge() {
 
+        this.sandBlockTS.row -= 1;
 
-    dropDT = 0.017;
-    dropTotal = 0;
-    blockDrop(radioDT: number) {
-
-        this.dropTotal += radioDT;
-
-        if (this.dropTotal >= this.dropDT) {
-            this.dropTotal -= this.dropDT;
-            this.sandBlockTS.row -= 1;
+        // 判断并复制方块
+        const canCopy = this.judgeSandBlock(TRAVERSAL_BY.R_C);
+        if (canCopy) {
+            this.copyBlockToArr();
+            this.resetSandBlock();
         }
-
     }
 
 
     gameSpeed = 1;
+    dropTotal = 0;
     simulateTotal = 0;
 
     update(dt) {
@@ -496,23 +574,17 @@ export default class GameScene extends Scene {
 
         const radioDT = dt * this.gameSpeed;
 
-        // 方块掉落
-        this.blockDrop(radioDT);
-        // this.debug("方块掉落");
-
-        // 判断并复制方块
-        const canCopy = this.judgeSandBlock();
-        if (canCopy) {
-            this.copyBlockToArr();
-            this.resetSandBlock();
+        // 超过的时间，再当前帧计算完
+        this.dropTotal += radioDT;
+        while (this.dropTotal >= DropDT) {
+            this.dropTotal -= DropDT;
+            this.blockDropAndJudge();
         }
-
-        // this.debug("方块判断");
 
         // 模拟时间
         this.simulateTotal += radioDT;
 
-        if (this.simulateTotal >= SimulateDT) {
+        while (this.simulateTotal >= SimulateDT) {
             this.simulateTotal -= SimulateDT;
 
             // 模拟
@@ -522,16 +594,13 @@ export default class GameScene extends Scene {
             // 判断并消除
             this.doJudgeEliminate();
             // this.debug("方块消除");
-
-
-            const isDie = this.judgeDie();
-            if(isDie){
-                this.pause = true;
-                console.log("你死了");
-            }
-
         }
 
+        const isDie = this.judgeDie();
+        if (isDie) {
+            this.pause = true;
+            console.log("你死了");
+        }
     }
 
 
