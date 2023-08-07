@@ -1,6 +1,6 @@
 import EventMgr from "./Managers/EventMgr";
 import { changeScene } from "../Module/SceneCtrl";
-import GameScene from "./Scenes/GameScene/GameScene";
+import StartScene from "./Scenes/StartScene";
 
 
 const {ccclass, property} = cc._decorator;
@@ -20,7 +20,7 @@ export default class GameLaunch extends cc.Component {
         // 	pkg: homePkg,
         // });
 
-        changeScene(GameScene);
+        changeScene(StartScene);
 
     }
 
