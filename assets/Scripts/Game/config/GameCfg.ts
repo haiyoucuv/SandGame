@@ -14,7 +14,7 @@ export enum TRAVERSAL_BY {
 export const GameCfg = {
     MaxCol: 80,
     MaxRow: 140,
-    SandWidth: 6,
+    SandWidth: 5,
     SimulateDT: 1 / 25,
     DropDT: 1 / 50,
 }

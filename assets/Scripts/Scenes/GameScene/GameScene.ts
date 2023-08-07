@@ -2,6 +2,7 @@ import Scene from "../../../Module/Scene";
 import { ColorArr, GameCfg, SandPool, TRAVERSAL_BY } from "../../Game/config/GameCfg";
 import SandBlock from "./SandBlock";
 import { wait } from "../../Utils/Utils";
+import SoundMgr from "../../Managers/SoundMgr";
 
 const {ccclass, property} = cc._decorator;
 
@@ -14,7 +15,7 @@ const {
 @ccclass
 export default class GameScene extends Scene {
 
-    static group: string[] = ["GameScene"];
+    static group: string[] = ["GameScene", "Sounds"];
     static skin: string = "GameScene";
 
     private static _ins: GameScene = null;
@@ -59,6 +60,9 @@ export default class GameScene extends Scene {
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchEC, this);
 
         this.addButtonListen("暂停", this.doPause, this);
+
+
+        SoundMgr.ins.playMusic("bgm", true);
     }
 
     doPause = () => {
@@ -97,12 +101,12 @@ export default class GameScene extends Scene {
     }
 
     onTouchEC(touch: cc.Event.EventTouch) {
-        const startPos = touch.getStartLocation();
-        const pos = touch.getLocation();
+        // const startPos = touch.getStartLocation();
+        // const pos = touch.getLocation();
 
-        if (startPos.subtract(pos).len() < 10) {
-            this.sandBlockTS.rotate();
-        }
+        // if (startPos.subtract(pos).len() < 10) {
+        //     this.sandBlockTS.rotate();
+        // }
 
         this.unschedule(this.moveSandBlock);
     }

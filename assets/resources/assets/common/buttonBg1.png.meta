@@ -12,7 +12,7 @@
   "height": 192,
   "platformSettings": {},
   "subMetas": {
-    "ButtonHandle": {
+    "buttonBg1": {
       "ver": "1.0.6",
       "uuid": "1d1180ee-e4a3-46c7-a024-68c5430e39cf",
       "importer": "sprite-frame",

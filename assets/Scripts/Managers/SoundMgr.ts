@@ -6,7 +6,7 @@ const EFFECT_NUM = 8;
 
 @ccclass
 export default class SoundMgr extends cc.Component {
-	public static Instance: SoundMgr = null;
+	public static ins: SoundMgr = null;
 
 	private effect_volume: number = 1;
 	private music_volume: number = 1;
@@ -54,8 +54,8 @@ export default class SoundMgr extends cc.Component {
 	}
 
 	onLoad() {
-		if (SoundMgr.Instance === null) {
-			SoundMgr.Instance = this;
+		if (SoundMgr.ins === null) {
+			SoundMgr.ins = this;
 		} else {
 			this.destroy();
 			return;
@@ -71,37 +71,35 @@ export default class SoundMgr extends cc.Component {
 		}
 		this.cur_as = 0;
 
-		const isIOS = cc.sys.os === "iOS";
-		this.musicMute = isIOS;
-		this.effectMute = isIOS;
+		// const isIOS = cc.sys.os === "iOS";
+		// this.musicMute = isIOS;
+		// this.effectMute = isIOS;
 
 	}
 
-	get_music_volume() {
-		return this.music_volume;
-	}
+    get musicVolume() {
+        return this.music_volume;
+    }
 
-	set_music_volume(value) {
-		this.music_volume = value;
-		this.music_as.volume = value;
-		// cc.sys.localStorage.setItem("music_volume", value);
-	}
+    set musicVolume(value) {
+        this.music_volume = value;
+        this.music_as.volume = value;
+    }
 
-	get_effect_volume() {
-		return this.effect_volume;
-	}
+    get effectVolume() {
+        return this.effect_volume;
+    }
 
-	set_effect_volume(value) {
+    set effectVolume(value) {
 
-		for (let i = 0; i < this.effect_as.length; i++) {
-			this.effect_as[i].volume = value;
-		}
+        for (let i = 0; i < this.effect_as.length; i++) {
+            this.effect_as[i].volume = value;
+        }
 
-		this.effect_volume = value;
-		// cc.sys.localStorage.setItem("effect_volume", value);
-	}
+        this.effect_volume = value;
+    }
 
-	play_music(url, loop) {
+	playMusic(url, loop) {
 		loop = !!loop;
 		this.music_as.loop = loop;
 		this.music_as.clip = RES.getRes("assets/Sounds/" + url, cc.AudioClip);
@@ -112,11 +110,11 @@ export default class SoundMgr extends cc.Component {
 		}
 	}
 
-	stop_music() {
+	stopMusic() {
 		this.music_as.stop();
 	}
 
-	play_effect(url) {
+	playEffect(url) {
 		const as = this.effect_as[this.cur_as];
 		this.cur_as++;
 		if (this.cur_as >= EFFECT_NUM) {

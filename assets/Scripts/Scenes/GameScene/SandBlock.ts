@@ -241,7 +241,7 @@ export default class SandBlock extends cc.Component {
                 }
 
                 sand.color = color;
-                sand.setPosition((blockC + col) * 6, (blockR + row) * 6);
+                sand.setPosition((blockC + col) * SandWidth, (blockR + row) * SandWidth);
                 this.node.addChild(sand);
                 this.sandArr[col + blockC][row + blockR] = sand;
             }
